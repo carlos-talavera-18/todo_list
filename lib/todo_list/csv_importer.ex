@@ -11,10 +11,12 @@ defmodule TodoList.CsvImporter do
   end
 
   defp parse_line(line) do
-    [date, title] =
+    [date_string, title] =
       line
       |> String.trim()
       |> String.split(",", parts: 2)
+
+    {:ok, date} = Date.from_iso8601(date_string)
 
     %Item{
       date: date,
