@@ -1,4 +1,6 @@
 defmodule TodoList.CsvImporter do
+  alias TodoList.Item
+
   def import(file) do
     Path.expand(file, __DIR__)
     |> File.stream!()
@@ -14,7 +16,7 @@ defmodule TodoList.CsvImporter do
       |> String.trim()
       |> String.split(",", parts: 2)
 
-    %{
+    %Item{
       date: date,
       title: title
     }

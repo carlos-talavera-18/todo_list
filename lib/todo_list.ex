@@ -1,4 +1,6 @@
 defmodule TodoList do
+  alias TodoList.Item
+
   defstruct auto_id: 1, entries: %{}
 
   def new(entries \\ []) do
@@ -15,9 +17,8 @@ defmodule TodoList do
     |> Enum.map(fn {_, entry} -> entry end)
   end
 
-  @spec add_entry(%TodoList{}, %{:date => Date, :title => String}) :: %TodoList{}
-  def add_entry(%TodoList{} = list, entry) do
-    entry = Map.put(entry, :id, list.auto_id)
+  def add_entry(%TodoList{} = list, %Item{} = entry) do
+    entry = %Item{entry | id: list.auto_id}
 
     new_entries = Map.put(
       list.entries,
@@ -36,7 +37,7 @@ defmodule TodoList do
       :error ->
         list
       {:ok, entry} ->
-        new_entry = updater_fun.(entry)
+        new_entry = %Item{} = updater_fun.(entry)
         new_entries = Map.put(
           list.entries,
           id,
