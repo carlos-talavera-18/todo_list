@@ -13,8 +13,8 @@ defmodule TodoList do
 
   def entries(%TodoList{} = list, date) do
     list.entries
-    |> Stream.filter(fn {_, entry}-> entry.date == date end)
-    |> Enum.map(fn {_, entry} -> entry end)
+    |> Map.values()
+    |> Enum.filter(fn entry-> entry.date == date end)
   end
 
   def add_entry(%TodoList{} = list, %Item{} = entry) do
